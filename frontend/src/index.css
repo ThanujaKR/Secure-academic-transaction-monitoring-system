@@ -1,0 +1,109 @@
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* 🌙 GLOBAL DARK MODE */
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* ===========================
+   FORCE TEXT COLOR
+=========================== */
+body.dark-mode,
+body.dark-mode * {
+  color: #ffffff;
+}
+
+/* ===========================
+   TABLE FIX (ALL TYPES)
+=========================== */
+body.dark-mode table {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode th,
+body.dark-mode td {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #444 !important;
+}
+
+/* Table rows */
+body.dark-mode tr {
+  background-color: #1e1e1e !important;
+}
+
+/* ===========================
+   BOOTSTRAP OVERRIDES
+=========================== */
+body.dark-mode .table {
+  --bs-table-bg: #1e1e1e;
+  --bs-table-color: #ffffff;
+  --bs-table-border-color: #444;
+}
+
+body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #2a2a2a !important;
+}
+
+body.dark-mode .table-hover tbody tr:hover {
+  background-color: #333 !important;
+}
+
+/* Bootstrap text utilities fix */
+body.dark-mode .text-dark {
+  color: #ffffff !important;
+}
+
+/* ===========================
+   INPUTS & FORMS
+=========================== */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  border-color: #444 !important;
+}
+
+/* ===========================
+   CARDS / CONTAINERS
+=========================== */
+body.dark-mode .card,
+body.dark-mode .container,
+body.dark-mode .bg-white {
+  background-color: #353030 !important;
+}
+
+#Home{
+  color: #121212;
+  background-color: aquamarine;
+}
+/* Keep nav button text blue even in dark mode */
+/* body.dark-mode .nav-btn {
+  color: #2563eb !important; blue text
+} */
