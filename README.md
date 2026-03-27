@@ -1,7 +1,6 @@
-# College Management System
+# Secure Academic Transaction System
 
 [![MERN Stack](https://img.shields.io/badge/Stack-MERN-blue)](https://www.mongodb.com/mern-stack)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-v14+-green)](https://nodejs.org)
 [![React](https://img.shields.io/badge/React-v17+-blue)](https://reactjs.org)
 
