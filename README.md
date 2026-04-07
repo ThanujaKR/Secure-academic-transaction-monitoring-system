@@ -121,7 +121,7 @@ This will create a default admin account with the following credentials:
 - Email: admin@gmail.com
 
 ## Project Structure
-
+```
 college-management-system/
 ├── backend/
 │   ├── controllers/
@@ -139,3 +139,4 @@ college-management-system/
 │   │   └── utils/
 │   └── public/
 └── README.md
+```
