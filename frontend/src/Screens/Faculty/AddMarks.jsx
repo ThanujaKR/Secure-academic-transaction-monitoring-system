@@ -17,6 +17,10 @@ const AddMarks = () => {
   const [selectedExam, setSelectedExam] = useState(null);
   const [masterMarksData, setMasterMarksData] = useState([]);
   const [marksData, setMarksData] = useState({});
+  const [submittedMap, setSubmittedMap] = useState({});
+  const [submittedAtMap, setSubmittedAtMap] = useState({});
+  const [submittedByMap, setSubmittedByMap] = useState({});
+  const [lastUpdatedByMap, setLastUpdatedByMap] = useState({});
   const [consent, setConsent] = useState(false);
   const [showSearch, setShowSearch] = useState(true);
 
@@ -136,10 +140,22 @@ const AddMarks = () => {
           toast.success("Students found!");
           setStudents(response.data.data);
           const initialMarksData = {};
+          const initialSubmittedMap = {};
+          const initialSubmittedAtMap = {};
+          const initialSubmittedByMap = {};
+          const initialLastUpdatedByMap = {};
           response.data.data.forEach((student) => {
             initialMarksData[student._id] = student.obtainedMarks || "";
+            initialSubmittedMap[student._id] = student.isSubmitted || false;
+            initialSubmittedAtMap[student._id] = student.submittedAt || null;
+            initialSubmittedByMap[student._id] = student.submittedBy || null;
+            initialLastUpdatedByMap[student._id] = student.lastUpdatedBy || null;
           });
           setMarksData(initialMarksData);
+          setSubmittedMap(initialSubmittedMap);
+          setSubmittedAtMap(initialSubmittedAtMap);
+          setSubmittedByMap(initialSubmittedByMap);
+          setLastUpdatedByMap(initialLastUpdatedByMap);
           setMasterMarksData(response.data.data);
           setShowSearch(false);
         }
@@ -250,6 +266,10 @@ const AddMarks = () => {
     setStudents([]);
     setMasterMarksData([]);
     setMarksData({});
+    setSubmittedMap({});
+    setSubmittedAtMap({});
+    setSubmittedByMap({});
+    setLastUpdatedByMap({});
     setConsent(false);
   };
 
@@ -479,20 +499,44 @@ const AddMarks = () => {
                 <p className="font-medium text-gray-700 flex items-center justify-center px-3 h-full py-2 rounded-md min-w-[120px] text-center">
                   {student.enrollmentNo}
                 </p>
-                <input
-                  type="number"
-                  min={0}
-                  max={selectedExam?.totalMarks || 100}
-                  className="px-4 py-2 border rounded-md focus:outline-none bg-gray-50 border-gray-200 focus:ring-2 focus:ring-blue-500 w-full m-2"
-                  value={marksData[student._id] || ""}
-                  placeholder="Enter Marks"
-                  onChange={(e) =>
-                    setMarksData({
-                      ...marksData,
-                      [student._id]: e.target.value,
-                    })
-                  }
-                />
+                {submittedMap[student._id] ? (
+                  <div className="flex flex-col px-3 py-2 w-full">
+                    <div className="flex items-center gap-1 font-semibold text-sm text-gray-800">
+                      <span>{marksData[student._id]}</span>
+                      <span className="text-gray-400 text-xs font-normal">/ {selectedExam?.totalMarks}</span>
+                    </div>
+                    {submittedAtMap[student._id] && (
+                      <p className="text-xs text-gray-400">
+                        {new Date(submittedAtMap[student._id]).toLocaleString()}
+                      </p>
+                    )}
+                    {submittedByMap[student._id] && (
+                      <p className="text-xs text-gray-500">
+                        By: {submittedByMap[student._id].firstName} {submittedByMap[student._id].lastName}
+                      </p>
+                    )}
+                    {lastUpdatedByMap[student._id] && (
+                      <p className="text-xs text-gray-500">
+                        Updated by: {lastUpdatedByMap[student._id].firstName} {lastUpdatedByMap[student._id].lastName}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <input
+                    type="number"
+                    min={0}
+                    max={selectedExam?.totalMarks || 100}
+                    className="px-4 py-2 border rounded-md focus:outline-none bg-gray-50 border-gray-200 focus:ring-2 focus:ring-blue-500 w-full m-2"
+                    value={marksData[student._id] || ""}
+                    placeholder="Enter Marks"
+                    onChange={(e) =>
+                      setMarksData({
+                        ...marksData,
+                        [student._id]: e.target.value,
+                      })
+                    }
+                  />
+                )}
               </div>
             ))}
           </div>

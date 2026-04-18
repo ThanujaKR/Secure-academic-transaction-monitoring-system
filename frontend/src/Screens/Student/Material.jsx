@@ -140,21 +140,22 @@ const Material = () => {
       {dataLoading && <Loading />}
 
       {!dataLoading && (
-        <div className="w-full mt-8 overflow-x-auto">
-          <table className="text-sm min-w-full bg-white">
+        <div className="w-full mt-8">
+          <div className="overflow-x-auto shadow-md rounded-lg">
+          <table className="text-sm w-full bg-white">
             <thead>
               <tr className="bg-blue-500 text-white">
-                <th className="py-4 px-6 text-left font-semibold">File</th>
-                <th className="py-4 px-6 text-left font-semibold">Title</th>
-                <th className="py-4 px-6 text-left font-semibold">Subject</th>
-                <th className="py-4 px-6 text-left font-semibold">Type</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">File</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Title</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Subject</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Type</th>
               </tr>
             </thead>
             <tbody>
               {materials && materials.length > 0 ? (
                 materials.map((material) => (
                   <tr key={material._id} className="border-b hover:bg-blue-50">
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 whitespace-nowrap">
                       <CustomButton
                         variant="primary"
                         onClick={() => {
@@ -166,9 +167,9 @@ const Material = () => {
                         <MdLink className="text-xl" />
                       </CustomButton>
                     </td>
-                    <td className="py-4 px-6">{material.title}</td>
-                    <td className="py-4 px-6">{material.subject.name}</td>
-                    <td className="py-4 px-6 capitalize">{material.type}</td>
+                    <td className="py-4 px-6 whitespace-nowrap">{material.title}</td>
+                    <td className="py-4 px-6 whitespace-nowrap">{material.subject.name}</td>
+                    <td className="py-4 px-6 capitalize whitespace-nowrap">{material.type}</td>
                   </tr>
                 ))
               ) : (
@@ -180,6 +181,7 @@ const Material = () => {
               )}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

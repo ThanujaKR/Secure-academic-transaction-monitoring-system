@@ -266,20 +266,21 @@ const Timetable = () => {
       </div>
 
       <div className="mt-8 w-full">
-        <table className="text-sm min-w-full bg-white">
+        <div className="overflow-x-auto shadow-md rounded-lg">
+        <table className="text-sm w-full bg-white">
           <thead>
             <tr className="bg-blue-500 text-white">
-              <th className="py-4 px-6 text-left font-semibold">View</th>
-              <th className="py-4 px-6 text-left font-semibold">Branch</th>
-              <th className="py-4 px-6 text-left font-semibold">Semester</th>
-              <th className="py-4 px-6 text-left font-semibold">Created At</th>
-              <th className="py-4 px-6 text-center font-semibold">Actions</th>
+              <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">View</th>
+              <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Branch</th>
+              <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Semester</th>
+              <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Created At</th>
+              <th className="py-4 px-6 text-center font-semibold whitespace-nowrap">Actions</th>
             </tr>
           </thead>
           <tbody>
             {timetables.map((item, index) => (
               <tr key={index} className="border-b hover:bg-blue-50">
-                <td className="py-4 px-6">
+                <td className="py-4 px-6 whitespace-nowrap">
                   <a
                     className="text-xl"
                     href={process.env.REACT_APP_MEDIA_LINK + "/" + item.link}
@@ -289,12 +290,13 @@ const Timetable = () => {
                     <MdLink />
                   </a>
                 </td>
-                <td className="py-4 px-6">{item.branch.name}</td>
-                <td className="py-4 px-6">{item.semester}</td>
-                <td className="py-4 px-6">
+                <td className="py-4 px-6 whitespace-nowrap">{item.branch.name}</td>
+                <td className="py-4 px-6 whitespace-nowrap">{item.semester}</td>
+                <td className="py-4 px-6 whitespace-nowrap">
                   {new Date(item.createdAt).toLocaleDateString()}
                 </td>
-                <td className="py-4 px-6 text-center flex justify-center gap-4">
+                <td className="py-4 px-6 whitespace-nowrap">
+                  <div className="flex justify-center gap-4">
                   <CustomButton
                     variant="secondary"
                     onClick={() => editTimetableHandler(item)}
@@ -307,11 +309,13 @@ const Timetable = () => {
                   >
                     <MdOutlineDelete />
                   </CustomButton>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       <AddTimetableModal

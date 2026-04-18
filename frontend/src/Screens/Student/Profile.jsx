@@ -25,7 +25,7 @@ const Profile = ({ profileData }) => {
             className="w-40 h-40 rounded-full object-cover ring-4 ring-blue-500 ring-offset-4"
           />
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-bold mb-2" style={{ color: 'inherit' }}>
               {`${profileData.firstName} ${profileData.middleName} ${profileData.lastName}`}
             </h1>
             <p className="text-lg text-gray-600 mb-1">

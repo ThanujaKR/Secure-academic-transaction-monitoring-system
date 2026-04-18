@@ -25,6 +25,8 @@ const loginAdminController = async (req, res, next) => {
       expiresIn: "1h",
     });
 
+    await adminDetails.findByIdAndUpdate(user._id, { activeToken: token });
+
     return ApiResponse.success({ token }, "Login successful").send(res);
   } catch (error) {
     console.error("Login Error: ", error);

@@ -203,18 +203,18 @@ const StudentFinder = () => {
         {students.length > 0 && (
           <div className="mt-8">
             <h2 className="text-xl font-semibold mb-4">Search Results</h2>
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-300">
+            <div className="overflow-x-auto shadow-md rounded-lg">
+              <table className="w-full bg-white border border-gray-300">
                 <thead>
                   <tr className="bg-gray-100">
-                    <th className="px-6 py-3 border-b text-left">Profile</th>
-                    <th className="px-6 py-3 border-b text-left">Name</th>
-                    <th className="px-6 py-3 border-b text-left">
+                    <th className="px-6 py-3 border-b text-left whitespace-nowrap">Profile</th>
+                    <th className="px-6 py-3 border-b text-left whitespace-nowrap">Name</th>
+                    <th className="px-6 py-3 border-b text-left whitespace-nowrap">
                       Enrollment No
                     </th>
-                    <th className="px-6 py-3 border-b text-left">Semester</th>
-                    <th className="px-6 py-3 border-b text-left">Branch</th>
-                    <th className="px-6 py-3 border-b text-left">Email</th>
+                    <th className="px-6 py-3 border-b text-left whitespace-nowrap">Semester</th>
+                    <th className="px-6 py-3 border-b text-left whitespace-nowrap">Branch</th>
+                    <th className="px-6 py-3 border-b text-left whitespace-nowrap">Email</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -224,7 +224,7 @@ const StudentFinder = () => {
                       className="hover:bg-gray-50 cursor-pointer"
                       onClick={() => handleRowClick(student)}
                     >
-                      <td className="px-6 py-4 border-b">
+                      <td className="px-6 py-4 border-b whitespace-nowrap">
                         <img
                           src={`${process.env.REACT_APP_MEDIA_LINK}/${student.profile}`}
                           alt={`${student.firstName}'s profile`}
@@ -235,18 +235,18 @@ const StudentFinder = () => {
                           }}
                         />
                       </td>
-                      <td className="px-6 py-4 border-b">
+                      <td className="px-6 py-4 border-b whitespace-nowrap">
                         {student.firstName} {student.middleName}{" "}
                         {student.lastName}
                       </td>
-                      <td className="px-6 py-4 border-b">
+                      <td className="px-6 py-4 border-b whitespace-nowrap">
                         {student.enrollmentNo}
                       </td>
-                      <td className="px-6 py-4 border-b">{student.semester}</td>
-                      <td className="px-6 py-4 border-b">
+                      <td className="px-6 py-4 border-b whitespace-nowrap">{student.semester}</td>
+                      <td className="px-6 py-4 border-b whitespace-nowrap">
                         {student.branchId?.name}
                       </td>
-                      <td className="px-6 py-4 border-b">{student.email}</td>
+                      <td className="px-6 py-4 border-b whitespace-nowrap">{student.email}</td>
                     </tr>
                   ))}
                 </tbody>

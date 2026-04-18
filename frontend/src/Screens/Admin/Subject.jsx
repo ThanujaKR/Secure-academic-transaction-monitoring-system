@@ -218,17 +218,18 @@ const Subject = () => {
               No subjects found
             </div>
           ) : (
-            <table className="text-sm min-w-full bg-white">
+            <div className="overflow-x-auto shadow-md rounded-lg">
+            <table className="text-sm w-full bg-white">
               <thead>
                 <tr className="bg-blue-500 text-white">
-                  <th className="py-4 px-6 text-left font-semibold">Name</th>
-                  <th className="py-4 px-6 text-left font-semibold">Code</th>
-                  <th className="py-4 px-6 text-left font-semibold">Branch</th>
-                  <th className="py-4 px-6 text-left font-semibold">
+                  <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Name</th>
+                  <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Code</th>
+                  <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Branch</th>
+                  <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">
                     Semester
                   </th>
-                  <th className="py-4 px-6 text-left font-semibold">Credits</th>
-                  <th className="py-4 px-6 text-center font-semibold">
+                  <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Credits</th>
+                  <th className="py-4 px-6 text-center font-semibold whitespace-nowrap">
                     Actions
                   </th>
                 </tr>
@@ -237,12 +238,13 @@ const Subject = () => {
                 {subject &&
                   subject.map((item, index) => (
                     <tr key={index} className="border-b hover:bg-blue-50">
-                      <td className="py-4 px-6">{item.name}</td>
-                      <td className="py-4 px-6">{item.code}</td>
-                      <td className="py-4 px-6">{item.branch?.name}</td>
-                      <td className="py-4 px-6">{item.semester}</td>
-                      <td className="py-4 px-6">{item.credits}</td>
-                      <td className="py-4 px-6 text-center flex justify-center gap-4">
+                      <td className="py-4 px-6 whitespace-nowrap">{item.name}</td>
+                      <td className="py-4 px-6 whitespace-nowrap">{item.code}</td>
+                      <td className="py-4 px-6 whitespace-nowrap">{item.branch?.name}</td>
+                      <td className="py-4 px-6 whitespace-nowrap">{item.semester}</td>
+                      <td className="py-4 px-6 whitespace-nowrap">{item.credits}</td>
+                      <td className="py-4 px-6 whitespace-nowrap">
+                        <div className="flex justify-center gap-4">
                         <CustomButton
                           variant="secondary"
                           className="!p-2"
@@ -257,11 +259,13 @@ const Subject = () => {
                         >
                           <MdOutlineDelete />
                         </CustomButton>
+                        </div>
                       </td>
                     </tr>
                   ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       )}

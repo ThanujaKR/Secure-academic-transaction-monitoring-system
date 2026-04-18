@@ -136,7 +136,14 @@ const addBulkMarksController = async (req, res) => {
       });
 
       if (existingMark) {
+        existingMark.editHistory.push({
+          previousMarks: existingMark.marksObtained,
+          updatedMarks: markData.obtainedMarks,
+          editedBy: req.userId,
+        });
         existingMark.marksObtained = markData.obtainedMarks;
+        existingMark.submittedAt = new Date();
+        existingMark.submittedBy = req.userId;
         await existingMark.save();
         results.push(existingMark);
       } else {
@@ -146,6 +153,9 @@ const addBulkMarksController = async (req, res) => {
           subjectId,
           semester,
           marksObtained: markData.obtainedMarks,
+          isSubmitted: true,
+          submittedAt: new Date(),
+          submittedBy: req.userId,
         });
         results.push(newMark);
       }
@@ -195,7 +205,8 @@ const getStudentsWithMarksController = async (req, res) => {
       examId,
       subjectId: subject,
       semester: Number(semester),
-    });
+    }).populate("submittedBy", "firstName lastName")
+      .populate("editHistory.editedBy", "firstName lastName");
 
     const studentsWithMarks = students.map((student) => {
       const studentMarks = marks.find(
@@ -204,6 +215,13 @@ const getStudentsWithMarksController = async (req, res) => {
       return {
         ...student.toObject(),
         obtainedMarks: studentMarks ? studentMarks.marksObtained : 0,
+        isSubmitted: studentMarks ? studentMarks.isSubmitted : false,
+        submittedAt: studentMarks ? studentMarks.submittedAt : null,
+        submittedBy: studentMarks ? studentMarks.submittedBy : null,
+        lastUpdatedBy: studentMarks?.editHistory?.length
+          ? studentMarks.editHistory[studentMarks.editHistory.length - 1].editedBy
+          : null,
+        marksId: studentMarks ? studentMarks._id : null,
       };
     });
 
@@ -238,7 +256,8 @@ const getStudentMarksController = async (req, res) => {
       semester: Number(semester),
     })
       .populate("subjectId", "name")
-      .populate("examId", "name examType totalMarks");
+      .populate("examId", "name examType totalMarks")
+      .populate("submittedBy", "firstName lastName");
 
     if (!marks || marks.length === 0) {
       return res.status(200).json({
@@ -262,6 +281,22 @@ const getStudentMarksController = async (req, res) => {
   }
 };
 
+const getMarksHistoryController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const mark = await Marks.findById(id).populate(
+      "editHistory.editedBy",
+      "firstName lastName"
+    );
+    if (!mark) {
+      return res.status(404).json({ success: false, message: "Mark not found" });
+    }
+    res.json({ success: true, data: mark.editHistory });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   getMarksController,
   addMarksController,
@@ -269,4 +304,5 @@ module.exports = {
   addBulkMarksController,
   getStudentsWithMarksController,
   getStudentMarksController,
+  getMarksHistoryController,
 };

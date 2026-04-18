@@ -24,6 +24,17 @@ const marksSchema = new mongoose.Schema({
     ref: "Exam",
     required: true,
   },
+  isSubmitted: { type: Boolean, default: false },
+  submittedAt: { type: Date },
+  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: "FacultyDetail" },
+  editHistory: [
+    {
+      previousMarks: Number,
+      updatedMarks: Number,
+      editedAt: { type: Date, default: Date.now },
+      editedBy: { type: mongoose.Schema.Types.ObjectId, ref: "FacultyDetail" },
+    },
+  ],
 });
 
 module.exports = mongoose.model("Marks", marksSchema);

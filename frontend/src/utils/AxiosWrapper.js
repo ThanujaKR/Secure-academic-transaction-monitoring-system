@@ -7,10 +7,10 @@ const axiosWrapper = axios.create({
 axiosWrapper.interceptors.response.use(
   (response) => response,
   (error) => {
+    const message = error.response?.data?.message;
     if (
-      error.response?.data?.message === "Invalid or expired token" &&
-      error.response?.data?.success === false &&
-      error.response?.data?.data === null
+      message === "Invalid or expired token" ||
+      message === "Session invalidated. Please log in again."
     ) {
       localStorage.clear();
       window.location.href = "/";

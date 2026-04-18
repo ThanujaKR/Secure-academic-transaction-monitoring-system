@@ -19,7 +19,7 @@ const UserTypeSelector = ({ selected, onSelect }) => (
         className={`px-5 py-2 text-sm font-medium rounded-full transition duration-200 ${
           selected === type
             ? "bg-blue-600 text-white shadow"
-            : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+            : "bg-gray-400 text-gray-800 hover:bg-gray-200"
         }`}
       >
         {type}
@@ -77,14 +77,14 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-gray-100 via-white to-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-[40%] px-6 py-12">
-        <h1 className="text-4xl font-bold text-gray-800 text-center mb-6">
-          {selected} Forget Password
+    <div className="min-h-screen flex items-center justify-start px-4 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/bg2.webp)' }}>
+      <div className="w-full max-w-2xl lg:w-1/2 px-6 py-12 bg-blue-100/30 backdrop-blur-md rounded-3xl ml-20 border border-white/20 shadow-2xl">
+        <h1 className="text-4xl font-bold text-gray-800 text-center mb-6 login-title">
+          <span className="text-black">{selected} Forget Password</span>
         </h1>
         <UserTypeSelector selected={selected} onSelect={setSelected} />
         <form
-          className="w-full p-8 bg-white rounded-2xl shadow-xl border border-gray-200"
+          className="w-full p-8 bg-white/20 backdrop-blur-sm rounded-2xl shadow-xl border border-white/30"
           onSubmit={onSubmit}
         >
           <div className="mb-6">

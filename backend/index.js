@@ -2,17 +2,25 @@ const connectToMongo = require("./database/db");
 const express = require("express");
 const app = express();
 const path = require("path");
+const session = require("express-session");
+const passport = require("./passport");
+require("dotenv").config();
 connectToMongo();
-const port = 4000 || process.env.PORT;
+const port = process.env.PORT || 4000;
 var cors = require("cors");
 
 app.use(
   cors({
     origin: process.env.FRONTEND_API_LINK,
+    credentials: true,
   })
 );
 
-app.use(express.json()); //to convert request data to json
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(session({ secret: process.env.JWT_SECRET, resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get("/", (req, res) => {
   res.send("Hello 👋 I am Working Fine 🚀");
@@ -20,6 +28,7 @@ app.get("/", (req, res) => {
 
 app.use("/media", express.static(path.join(__dirname, "media")));
 
+app.use("/api/auth", require("./routes/auth.route"));
 app.use("/api/admin", require("./routes/details/admin-details.route"));
 app.use("/api/faculty", require("./routes/details/faculty-details.route"));
 app.use("/api/student", require("./routes/details/student-details.route"));

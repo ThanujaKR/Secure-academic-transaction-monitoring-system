@@ -90,6 +90,14 @@ const ViewMarks = () => {
                       <p className="text-sm text-gray-500">
                         {mark.examId.name}
                       </p>
+                      {mark.submittedAt && (
+                        <p className="text-xs text-gray-400 mt-1">
+                          {new Date(mark.submittedAt).toLocaleString()}
+                          {mark.submittedBy && (
+                            <span> · By: {mark.submittedBy.firstName} {mark.submittedBy.lastName}</span>
+                          )}
+                        </p>
+                      )}
                     </div>
                     <div className="text-right">
                       <p className="text-lg font-semibold text-blue-600">
@@ -127,6 +135,14 @@ const ViewMarks = () => {
                       <p className="text-sm text-gray-500">
                         {mark.examId.name}
                       </p>
+                      {mark.submittedAt && (
+                        <p className="text-xs text-gray-400 mt-1">
+                          {new Date(mark.submittedAt).toLocaleString()}
+                          {mark.submittedBy && (
+                            <span> · By: {mark.submittedBy.firstName} {mark.submittedBy.lastName}</span>
+                          )}
+                        </p>
+                      )}
                     </div>
                     <div className="text-right">
                       <p className="text-lg font-semibold text-blue-600">

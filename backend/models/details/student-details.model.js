@@ -12,7 +12,6 @@ const studentDetailsSchema = new mongoose.Schema(
     },
     middleName: {
       type: String,
-      required: true,
     },
     lastName: {
       type: String,
@@ -85,16 +84,16 @@ const studentDetailsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-  },
-  { timestamps: true }
-);
-
-studentDetailsSchema.pre("save", async function (next) {
+    activeToken: {
+      type: String,
+      default: null,
+    },
+  },("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
   this.password = await bcrypt.hash(this.password, 10);
-});
+}));
 
 const studentDetails = mongoose.model("StudentDetail", studentDetailsSchema);
 

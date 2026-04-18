@@ -30,11 +30,31 @@ body.dark-mode {
 }
 
 /* ===========================
+   TOAST NOTIFICATIONS FIX
+=========================== */
+body.dark-mode .Toaster,
+body.dark-mode [role="status"],
+body.dark-mode [role="alert"] {
+  background-color: #4a5568 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .Toaster > div {
+  background-color: #4a5568 !important;
+  color: #ffffff !important;
+}
+
+/* ===========================
    FORCE TEXT COLOR
 =========================== */
 body.dark-mode,
 body.dark-mode * {
   color: #ffffff;
+}
+
+/* Keep login title black */
+body.dark-mode .login-title {
+  color: #000000 !important;
 }
 
 /* ===========================
@@ -103,7 +123,4 @@ body.dark-mode .bg-white {
   color: #121212;
   background-color: aquamarine;
 }
-/* Keep nav button text blue even in dark mode */
-/* body.dark-mode .nav-btn {
-  color: #2563eb !important; blue text
-} */
+

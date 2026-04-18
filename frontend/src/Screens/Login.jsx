@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FiLogIn } from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -13,9 +14,9 @@ const USER_TYPES = {
   ADMIN: "Admin",
 };
 
-const LoginForm = ({ selected, onSubmit, formData, setFormData }) => (
+const LoginForm = ({ selected, onSubmit, formData, setFormData, onGoogleLogin }) => (
   <form
-    className="w-full p-8 bg-white rounded-2xl shadow-xl border border-gray-200"
+    className="w-full p-8 bg-white/20 backdrop-blur-sm rounded-2xl shadow-xl border border-white/30"
     onSubmit={onSubmit}
   >
     <div className="mb-6">
@@ -65,6 +66,21 @@ const LoginForm = ({ selected, onSubmit, formData, setFormData }) => (
       Login
       <FiLogIn className="text-lg" />
     </CustomButton>
+
+    <div className="flex items-center my-4">
+      <div className="flex-1 border-t border-gray-300" />
+      <span className="mx-3 text-sm text-gray-500">or</span>
+      <div className="flex-1 border-t border-gray-300" />
+    </div>
+
+    <button
+      type="button"
+      onClick={onGoogleLogin}
+      className="w-full flex items-center justify-center gap-3 px-4 py-2.5 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition duration-200 text-sm font-medium text-gray-700"
+    >
+      <FcGoogle className="text-xl" />
+      Continue with Google
+    </button>
   </form>
 );
 
@@ -105,6 +121,11 @@ const Login = () => {
     setSearchParams({ type: userType });
   };
 
+  const handleGoogleLogin = () => {
+    const userType = selected.toLowerCase();
+    window.location.href = `${process.env.REACT_APP_APILINK.replace("/api", "")}/api/auth/google?userType=${userType}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -139,6 +160,8 @@ const Login = () => {
     if (userToken) {
       navigate(`/${localStorage.getItem("userType").toLowerCase()}`);
     }
+    const error = searchParams.get("error");
+    if (error) toast.error(decodeURIComponent(error));
   }, [navigate]);
 
   useEffect(() => {
@@ -149,10 +172,10 @@ const Login = () => {
   }, [type]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-gray-100 via-white to-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-2xl lg:w-1/2 px-6 py-12">
-        <h1 className="text-4xl font-bold text-gray-800 text-center mb-6">
-          {selected} Login
+    <div className="min-h-screen flex items-center justify-start px-4 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/bg2.webp)' }}>
+      <div className="w-full max-w-2xl lg:w-1/2 px-6 py-12 bg-blue-100/30 backdrop-blur-md rounded-3xl ml-20 border border-white/20 shadow-2xl">
+        <h1 className="text-4xl font-bold text-gray-800 text-center mb-6 login-title">
+          <span className="text-black">{selected} Login</span>
         </h1>
         <UserTypeSelector selected={selected} onSelect={handleUserTypeSelect} />
         <LoginForm
@@ -160,6 +183,7 @@ const Login = () => {
           onSubmit={handleSubmit}
           formData={formData}
           setFormData={setFormData}
+          onGoogleLogin={handleGoogleLogin}
         />
       </div>
       <Toaster position="bottom-center" />

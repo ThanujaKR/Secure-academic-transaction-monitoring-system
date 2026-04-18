@@ -89,6 +89,10 @@ const facultyDetailsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    activeToken: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );

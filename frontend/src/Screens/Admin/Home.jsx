@@ -75,7 +75,8 @@ const Home = () => {
     const isSelected = selectedMenu === menuId;
     return `
       text-center px-6 py-3 cursor-pointer
-      font-medium text-sm w-full
+      // font-medium text-sm 
+      font-medium text-sm px-6 py-2
       rounded-md
       transition-all duration-300 ease-in-out
       ${
@@ -113,7 +114,8 @@ const Home = () => {
     <>
       <Navbar />
       <div className="max-w-7xl mx-auto">
-        <ul className="flex justify-evenly items-center gap-10 w-full mx-auto my-8">
+        {/* <ul className="flex justify-evenly items-center gap-10 w-full mx-auto my-8"> */}
+        <ul className="flex flex-wrap justify-center items-center gap-6 w-full mx-auto my-8">
           {MENU_ITEMS.map((item) => (
             <li
               key={item.id}

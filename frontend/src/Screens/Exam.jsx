@@ -196,18 +196,19 @@ const Exam = () => {
 
       {!dataLoading ? (
         <div className="mt-8 w-full">
-          <table className="text-sm min-w-full bg-white">
+          <div className="overflow-x-auto shadow-md rounded-lg">
+          <table className="text-sm w-full bg-white">
             <thead>
               <tr className="bg-blue-500 text-white">
-                <th className="py-4 px-6 text-left font-semibold">Exam Name</th>
-                <th className="py-4 px-6 text-left font-semibold">Date</th>
-                <th className="py-4 px-6 text-left font-semibold">Semester</th>
-                <th className="py-4 px-6 text-left font-semibold">Exam Type</th>
-                <th className="py-4 px-6 text-left font-semibold">
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Exam Name</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Date</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Semester</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Exam Type</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">
                   Total Marks
                 </th>
                 {loginType !== "Student" && (
-                  <th className="py-4 px-6 text-center font-semibold">
+                  <th className="py-4 px-6 text-center font-semibold whitespace-nowrap">
                     Actions
                   </th>
                 )}
@@ -217,17 +218,18 @@ const Exam = () => {
               {exams && exams.length > 0 ? (
                 exams.map((item, index) => (
                   <tr key={index} className="border-b hover:bg-blue-50">
-                    <td className="py-4 px-6">{item.name}</td>
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 whitespace-nowrap">{item.name}</td>
+                    <td className="py-4 px-6 whitespace-nowrap">
                       {new Date(item.date).toLocaleDateString()}
                     </td>
-                    <td className="py-4 px-6">{item.semester}</td>
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 whitespace-nowrap">{item.semester}</td>
+                    <td className="py-4 px-6 whitespace-nowrap">
                       {item.examType === "mid" ? "Mid Term" : "End Term"}
                     </td>
-                    <td className="py-4 px-6">{item.totalMarks}</td>
+                    <td className="py-4 px-6 whitespace-nowrap">{item.totalMarks}</td>
                     {loginType !== "Student" && (
-                      <td className="py-4 px-6 text-center flex justify-center gap-4">
+                      <td className="py-4 px-6 whitespace-nowrap">
+                        <div className="flex justify-center gap-4">
                         <CustomButton
                           variant="secondary"
                           className="!p-2"
@@ -242,6 +244,7 @@ const Exam = () => {
                         >
                           <MdOutlineDelete />
                         </CustomButton>
+                        </div>
                       </td>
                     )}
                   </tr>
@@ -255,6 +258,7 @@ const Exam = () => {
               )}
             </tbody>
           </table>
+          </div>
         </div>
       ) : (
         <Loading />

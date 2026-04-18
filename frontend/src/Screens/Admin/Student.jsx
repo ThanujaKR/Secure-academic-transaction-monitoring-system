@@ -416,17 +416,17 @@ const Student = () => {
           {students && students.length > 0 && (
             <div className="mt-8">
               <h2 className="text-xl font-semibold mb-4">Search Results</h2>
-              <div className="overflow-x-auto">
-                <table className="min-w-full bg-white border border-gray-300">
+              <div className="overflow-x-auto shadow-md rounded-lg">
+                <table className="w-full bg-white border border-gray-300">
                   <thead>
                     <tr className="bg-gray-100">
-                      <th className="px-6 py-3 border-b text-left">Profile</th>
-                      <th className="px-6 py-3 border-b text-left">Name</th>
-                      <th className="px-6 py-3 border-b text-left">E. No</th>
-                      <th className="px-6 py-3 border-b text-left">Semester</th>
-                      <th className="px-6 py-3 border-b text-left">Branch</th>
-                      <th className="px-6 py-3 border-b text-left">Email</th>
-                      <th className="px-6 py-3 border-b text-center">
+                      <th className="px-6 py-3 border-b text-left whitespace-nowrap">Profile</th>
+                      <th className="px-6 py-3 border-b text-left whitespace-nowrap">Name</th>
+                      <th className="px-6 py-3 border-b text-left whitespace-nowrap">E. No</th>
+                      <th className="px-6 py-3 border-b text-left whitespace-nowrap">Semester</th>
+                      <th className="px-6 py-3 border-b text-left whitespace-nowrap">Branch</th>
+                      <th className="px-6 py-3 border-b text-left whitespace-nowrap">Email</th>
+                      <th className="px-6 py-3 border-b text-center whitespace-nowrap">
                         Actions
                       </th>
                     </tr>
@@ -434,7 +434,7 @@ const Student = () => {
                   <tbody>
                     {students.map((student) => (
                       <tr key={student._id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 border-b">
+                        <td className="px-6 py-4 border-b whitespace-nowrap">
                           <img
                             src={`${process.env.REACT_APP_MEDIA_LINK}/${student.profile}`}
                             alt={`${student.firstName}'s profile`}
@@ -445,21 +445,21 @@ const Student = () => {
                             }}
                           />
                         </td>
-                        <td className="px-6 py-4 border-b">
+                        <td className="px-6 py-4 border-b whitespace-nowrap">
                           {student.firstName} {student.middleName}{" "}
                           {student.lastName}
                         </td>
-                        <td className="px-6 py-4 border-b">
+                        <td className="px-6 py-4 border-b whitespace-nowrap">
                           {student.enrollmentNo}
                         </td>
-                        <td className="px-6 py-4 border-b">
+                        <td className="px-6 py-4 border-b whitespace-nowrap">
                           {student.semester}
                         </td>
-                        <td className="px-6 py-4 border-b">
+                        <td className="px-6 py-4 border-b whitespace-nowrap">
                           {student.branchId?.name}
                         </td>
-                        <td className="px-6 py-4 border-b">{student.email}</td>
-                        <td className="px-6 py-4 border-b text-center">
+                        <td className="px-6 py-4 border-b whitespace-nowrap">{student.email}</td>
+                        <td className="px-6 py-4 border-b whitespace-nowrap">
                           <div className="flex justify-center gap-2">
                             <CustomButton
                               variant="secondary"
@@ -532,7 +532,7 @@ const Student = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Middle Name
+                    Middle Name <span className="text-gray-400 font-normal">(Optional)</span>
                   </label>
                   <input
                     type="text"

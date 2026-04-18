@@ -11,12 +11,14 @@ import StudentFinder from "./StudentFinder";
 import Profile from "./Profile";
 import Marks from "./AddMarks";
 import Exam from "../Exam";
+import Faculty from "../Admin/Faculty";
 
 const MENU_ITEMS = [
   { id: "home", label: "Home", component: null },
   { id: "timetable", label: "Timetable", component: Timetable },
   { id: "material", label: "Material", component: Material },
   { id: "notice", label: "Notice", component: Notice },
+  { id: "faculty", label: "Faculty", component: Faculty },
   { id: "student info", label: "Student Info", component: StudentFinder },
   { id: "marks", label: "Marks", component: Marks },
   { id: "exam", label: "Exam", component: Exam },
@@ -49,10 +51,10 @@ const Home = () => {
 
   const getMenuItemClass = (menuId) => {
     const isSelected = selectedMenu.toLowerCase() === menuId.toLowerCase();
-    return `text-center px-6 py-3 cursor-pointer font-medium text-sm w-full rounded-md ${
+    return `text-center px-6 py-3 cursor-pointer font-medium text-sm rounded-md transition-all duration-300 ease-in-out ${
       isSelected
-        ? "bg-blue-500 text-white"
-        : "bg-blue-50 text-blue-700 hover:bg-blue-100"
+        ? "bg-blue-500 text-black !important shadow-lg"
+        : "bg-white dark:bg-blue-100 hover:bg-blue-200 text-black hover:bg-blue-300 shadow-sm"
     }`;
   };
 
@@ -77,7 +79,7 @@ const Home = () => {
     <>
       <Navbar />
       <div className="max-w-7xl mx-auto">
-        <ul className="flex justify-evenly items-center gap-10 w-full mx-auto my-8">
+        <ul className="flex flex-wrap justify-center items-center gap-6 w-full mx-auto my-8">
           {MENU_ITEMS.map((item) => (
             <li
               key={item.id}

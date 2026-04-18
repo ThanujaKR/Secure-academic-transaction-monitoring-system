@@ -45,6 +45,9 @@ const Faculty = () => {
   const userToken = localStorage.getItem("userToken");
   const [file, setFile] = useState(null);
   const [dataLoading, setDataLoading] = useState(null);
+  const [selectedBranch, setSelectedBranch] = useState(null);
+  const [filteredFaculty, setFilteredFaculty] = useState([]);
+  const userType = localStorage.getItem("userType");
 
   useEffect(() => {
     getFacultyHandler();
@@ -98,6 +101,12 @@ const Faculty = () => {
     } finally {
       toast.dismiss();
     }
+  };
+
+  const handleBranchClick = (branchId) => {
+    setSelectedBranch(branchId);
+    const filtered = faculty.filter(f => f.branchId?._id === branchId || f.branchId === branchId);
+    setFilteredFaculty(filtered);
   };
 
   const addFacultyHandler = async () => {
@@ -267,23 +276,62 @@ const Faculty = () => {
   };
 
   return (
-    <div className="w-full mx-auto mt-10 flex justify-center items-start flex-col mb-10 relative">
+    <div className="w-full mt-10 flex flex-col mb-10 relative">
       <div className="flex justify-between items-center w-full">
-        <Heading title="Faculty Management" />
-        <CustomButton
-          onClick={() => {
-            if (showAddForm) {
-              resetForm();
-            } else {
-              setShowAddForm(true);
-            }
-          }}
-        >
-          <IoMdAdd className="text-2xl" />
-        </CustomButton>
+        <Heading title={selectedBranch ? "Faculty Management" : "Departments"} />
+        {selectedBranch && userType === "Admin" && (
+          <CustomButton
+            onClick={() => {
+              if (showAddForm) {
+                resetForm();
+              } else {
+                setShowAddForm(true);
+              }
+            }}
+          >
+            <IoMdAdd className="text-2xl" />
+          </CustomButton>
+        )}
       </div>
 
       {dataLoading && <Loading />}
+
+      {!dataLoading && !selectedBranch && (
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {branch.sort((a, b) => a.name.localeCompare(b.name)).map((dept) => {
+            const imageName = dept.name.toLowerCase().replace(/\s+/g, ' ');
+            const imageExtensions = ['webp', 'jpg', 'jpeg', 'png'];
+            let imagePath = `/assets/${imageName}.jpg`;
+            
+            return (
+              <div
+                key={dept._id}
+                onClick={() => handleBranchClick(dept._id)}
+                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer border border-gray-200 hover:border-blue-500"
+              >
+                <div className="h-48 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={imagePath}
+                    alt={dept.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      if (e.target.src.endsWith('.jpg')) {
+                        e.target.src = `/assets/${imageName}.webp`;
+                      } else if (e.target.src.endsWith('.webp')) {
+                        e.target.src = `/assets/${imageName}.png`;
+                      }
+                    }}
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{dept.name}</h3>
+                  <p className="text-gray-600 text-sm">Click to view faculty members</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {showAddForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -646,60 +694,77 @@ const Faculty = () => {
         </div>
       )}
 
-      {!dataLoading && !showAddForm && (
-        <div className="mt-8 w-full">
-          <table className="text-sm min-w-full bg-white">
-            <thead>
-              <tr className="bg-blue-500 text-white">
-                <th className="py-4 px-6 text-left font-semibold">Name</th>
-                <th className="py-4 px-6 text-left font-semibold">Email</th>
-                <th className="py-4 px-6 text-left font-semibold">Phone</th>
-                <th className="py-4 px-6 text-left font-semibold">
-                  Employee ID
-                </th>
-                <th className="py-4 px-6 text-left font-semibold">
-                  Designation
-                </th>
-                <th className="py-4 px-6 text-center font-semibold">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {faculty && faculty.length > 0 ? (
-                faculty.map((item, index) => (
-                  <tr key={index} className="border-b hover:bg-blue-50">
-                    <td className="py-4 px-6">{`${item.firstName} ${item.lastName}`}</td>
-                    <td className="py-4 px-6">{item.email}</td>
-                    <td className="py-4 px-6">{item.phone}</td>
-                    <td className="py-4 px-6">{item.employeeId}</td>
-                    <td className="py-4 px-6">{item.designation}</td>
-                    <td className="py-4 px-6 text-center flex justify-center gap-4">
-                      <CustomButton
-                        variant="secondary"
-                        className="!p-2"
-                        onClick={() => editFacultyHandler(item)}
-                      >
-                        <MdEdit />
-                      </CustomButton>
-                      <CustomButton
-                        variant="danger"
-                        className="!p-2"
-                        onClick={() => deleteFacultyHandler(item._id)}
-                      >
-                        <MdOutlineDelete />
-                      </CustomButton>
-                    </td>
+      {!dataLoading && selectedBranch && !showAddForm && (
+        <>
+          <CustomButton
+            onClick={() => setSelectedBranch(null)}
+            variant="secondary"
+            className="mt-4 mb-4"
+          >
+            ← Back to Departments
+          </CustomButton>
+          <div className="mt-4 w-full">
+            <div className="overflow-x-auto shadow-md rounded-lg">
+              <table className="text-sm w-full bg-white">
+                <thead>
+                  <tr className="bg-blue-500 text-white">
+                    <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Name</th>
+                    <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Email</th>
+                    <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Phone</th>
+                    <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">
+                      Employee ID
+                    </th>
+                    <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">
+                      Designation
+                    </th>
+                    {userType === "Admin" && (
+                      <th className="py-4 px-6 text-center font-semibold whitespace-nowrap">Actions</th>
+                    )}
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="text-center text-base pt-10">
-                    No Faculty found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                </thead>
+                <tbody>
+                  {filteredFaculty && filteredFaculty.length > 0 ? (
+                    filteredFaculty.map((item, index) => (
+                      <tr key={index} className="border-b hover:bg-blue-50">
+                        <td className="py-4 px-6 whitespace-nowrap">{`${item.firstName} ${item.lastName}`}</td>
+                        <td className="py-4 px-6 whitespace-nowrap">{item.email}</td>
+                        <td className="py-4 px-6 whitespace-nowrap">{item.phone}</td>
+                        <td className="py-4 px-6 whitespace-nowrap">{item.employeeId}</td>
+                        <td className="py-4 px-6 whitespace-nowrap">{item.designation}</td>
+                        {userType === "Admin" && (
+                          <td className="py-4 px-6 whitespace-nowrap">
+                            <div className="flex justify-center gap-4">
+                              <CustomButton
+                                variant="secondary"
+                                className="!p-2"
+                                onClick={() => editFacultyHandler(item)}
+                              >
+                                <MdEdit />
+                              </CustomButton>
+                              <CustomButton
+                                variant="danger"
+                                className="!p-2"
+                                onClick={() => deleteFacultyHandler(item._id)}
+                              >
+                                <MdOutlineDelete />
+                              </CustomButton>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={userType === "Admin" ? "6" : "5"} className="text-center text-base pt-10">
+                        No Faculty found in this department.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
       )}
       <DeleteConfirm
         isOpen={isDeleteConfirmOpen}

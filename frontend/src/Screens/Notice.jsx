@@ -19,6 +19,7 @@ const Notice = () => {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [selectedNoticeId, setSelectedNoticeId] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
+  const [viewNotice, setViewNotice] = useState(null);
   const token = localStorage.getItem("userToken");
 
   const [formData, setFormData] = useState({
@@ -170,18 +171,12 @@ const Notice = () => {
               {notices?.map((notice) => (
                 <div
                   key={notice._id}
-                  className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 w-[350px]"
+                  className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 w-[350px] cursor-pointer"
+                  onClick={() => setViewNotice(notice)}
                 >
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <h3
-                        className={`text-lg font-semibold line-clamp-2 group flex items-start ${
-                          notice.link
-                            ? "cursor-pointer hover:text-blue-600"
-                            : ""
-                        }`}
-                        onClick={() => notice.link && window.open(notice.link)}
-                      >
+                      <h3 className="text-lg font-semibold line-clamp-2 group flex items-start">
                         {notice.title}
                         {notice.link && (
                           <IoMdLink className="ml-2 flex-shrink-0 text-xl opacity-70 group-hover:opacity-100 group-hover:text-blue-500" />
@@ -191,7 +186,8 @@ const Notice = () => {
                         router.pathname === "/admin") && (
                         <div className="flex gap-2 ml-2 flex-shrink-0">
                           <CustomButton
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               setSelectedNoticeId(notice._id);
                               setIsDeleteConfirmOpen(true);
                             }}
@@ -202,7 +198,10 @@ const Notice = () => {
                             <MdDeleteOutline size={18} />
                           </CustomButton>
                           <CustomButton
-                            onClick={() => handleEdit(notice)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEdit(notice);
+                            }}
                             variant="secondary"
                             className="!p-1.5 rounded-full"
                             title="Edit Notice"
@@ -335,6 +334,46 @@ const Notice = () => {
                 </CustomButton>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* View Notice Modal */}
+      {viewNotice && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={() => setViewNotice(null)}>
+          <div className="bg-white rounded-lg w-[600px] max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center p-6 border-b">
+              <h2 className="text-2xl font-semibold">{viewNotice.title}</h2>
+              <button onClick={() => setViewNotice(null)} className="text-gray-500 hover:text-gray-700">
+                <IoMdClose className="text-3xl" />
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-gray-700 whitespace-pre-wrap">{viewNotice.description}</p>
+              <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t">
+                <div className="flex items-center">
+                  <HiOutlineCalendar className="mr-2" />
+                  {new Date(viewNotice.createdAt).toLocaleString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </div>
+                {viewNotice.type !== "both" && (
+                  <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-medium">
+                    {viewNotice.type === "student" ? "Student" : "Faculty"}
+                  </span>
+                )}
+              </div>
+              {viewNotice.link && (
+                <div className="pt-4">
+                  <CustomButton onClick={() => window.open(viewNotice.link)} className="w-full flex items-center justify-center gap-2">
+                    <IoMdLink className="text-xl" />
+                    Open Link
+                  </CustomButton>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

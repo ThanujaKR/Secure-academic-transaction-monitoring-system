@@ -25,6 +25,8 @@ const loginStudentController = async (req, res) => {
       expiresIn: "1h",
     });
 
+    await studentDetails.findByIdAndUpdate(user._id, { activeToken: token });
+
     return ApiResponse.success({ token }, "Login successful").send(res);
   } catch (error) {
     console.error("Login Error: ", error);

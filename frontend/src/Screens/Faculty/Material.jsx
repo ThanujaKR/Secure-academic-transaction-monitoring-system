@@ -319,28 +319,29 @@ const Material = () => {
       </div>
 
       {/* Materials Table */}
-      <div className="w-full mt-8 overflow-x-auto">
+      <div className="w-full mt-8">
         {materials.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             No materials found
           </div>
         ) : (
-          <table className="text-sm min-w-full bg-white">
+          <div className="overflow-x-auto shadow-md rounded-lg">
+          <table className="text-sm w-full bg-white">
             <thead>
               <tr className="bg-blue-500 text-white">
-                <th className="py-4 px-6 text-left font-semibold">File</th>
-                <th className="py-4 px-6 text-left font-semibold">Title</th>
-                <th className="py-4 px-6 text-left font-semibold">Subject</th>
-                <th className="py-4 px-6 text-left font-semibold">Semester</th>
-                <th className="py-4 px-6 text-left font-semibold">Branch</th>
-                <th className="py-4 px-6 text-left font-semibold">Type</th>
-                <th className="py-4 px-6 text-left font-semibold">Actions</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">File</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Title</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Subject</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Semester</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Branch</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Type</th>
+                <th className="py-4 px-6 text-left font-semibold whitespace-nowrap">Actions</th>
               </tr>
             </thead>
             <tbody>
               {materials.map((material) => (
                 <tr key={material._id} className="border-b hover:bg-blue-50">
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 whitespace-nowrap">
                     <CustomButton
                       variant="primary"
                       onClick={() => {
@@ -352,12 +353,12 @@ const Material = () => {
                       <MdLink className="text-xl" />
                     </CustomButton>
                   </td>
-                  <td className="py-4 px-6">{material.title}</td>
-                  <td className="py-4 px-6">{material.subject.name}</td>
-                  <td className="py-4 px-6">{material.semester}</td>
-                  <td className="py-4 px-6">{material.branch.name}</td>
-                  <td className="py-4 px-6 capitalize">{material.type}</td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 whitespace-nowrap">{material.title}</td>
+                  <td className="py-4 px-6 whitespace-nowrap">{material.subject.name}</td>
+                  <td className="py-4 px-6 whitespace-nowrap">{material.semester}</td>
+                  <td className="py-4 px-6 whitespace-nowrap">{material.branch.name}</td>
+                  <td className="py-4 px-6 capitalize whitespace-nowrap">{material.type}</td>
+                  <td className="py-4 px-6 whitespace-nowrap">
                     <div className="flex gap-4">
                       <CustomButton
                         variant="secondary"
@@ -380,6 +381,7 @@ const Material = () => {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 
