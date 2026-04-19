@@ -22,8 +22,13 @@ app.use(session({ secret: process.env.JWT_SECRET, resave: false, saveUninitializ
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/", (req, res) => {
-  res.send("Hello 👋 I am Working Fine 🚀");
+const path = require("path");
+
+// Serve frontend
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.use("/media", express.static(path.join(__dirname, "media")));
