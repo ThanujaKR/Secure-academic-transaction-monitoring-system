@@ -17,5 +17,14 @@ app.use(passport.session());
 // Auth routes (Google OAuth)
 app.use("/api/auth", authRoute);
 
+//deployment
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 // Error handling middleware
 module.exports = app;
